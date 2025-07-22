@@ -27,9 +27,11 @@
 
             </div>
             <div class="col-md-4">
-                <a href="{% url 'export-csv'%}" class="btn btn-secondary">Export to CSV</a>
-                <a href="{% url 'export-excel'%}" class="btn btn-primary">Export to Excel</a>
-                <a href="{% url 'export-pdf'%}" class="btn btn-info">Export to Pdf</a>
+                  <div class="d-flex gap-2 my-3">
+                    <a href="{% url 'export-csv' %}" class="btn btn-primary btn-sm">Export to CSV</a>
+                    <a href="{% url 'export-excel' %}" class="btn btn-primary btn-sm">Export to Excel</a>
+                    <a href="{% url 'export-pdf' %}" class="btn btn-primary btn-sm">Export to PDF</a>
+                  </div>
                 <div class="form-group">
                     <input type="text" name="search" id="searchField" placeholder="Search" class="form-control form-control-sm" />
                 </div>

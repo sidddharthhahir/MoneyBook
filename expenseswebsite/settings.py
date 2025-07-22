@@ -78,24 +78,23 @@ WSGI_APPLICATION = 'expenseswebsite.wsgi.application'
 
 
 
-
-# DATABASES = {
-#      'default': {
-#          'ENGINE': 'django.db.backends.postgresql',
-#          'NAME': 'incomeexpensesdb',
-#          'USER': 'postgres',
-#          'PASSWORD': '250802',
-#          'HOST': 'localhost',
-#          'PORT': '5432',
-#      }
-#  }
-DATABASES = {
-    'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL')
-    )
-}
-
-
+if os.environ.get('DATABASE_URL'):
+    # Use DATABASE_URL from environment (for production)
+    DATABASES = {
+        'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
+    }
+else:
+    # Use local settings (for development)
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'incomeexpensesdb',
+            'USER': 'postgres',
+            'PASSWORD': '250802',
+            'HOST': 'localhost',
+            'PORT': '5432',
+        }
+    }
 
 AUTH_PASSWORD_VALIDATORS = [
      {
