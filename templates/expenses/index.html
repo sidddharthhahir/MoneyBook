@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+<div class="container"> 
+<div class="row">
+    <div class="col-md-9">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="">Expenses</a></li>
+              <li class="breadcrumb-item active" aria-current="page">My Expenses</li>
+            </ol>
+          </nav>
+    <div class="col-md-3">
+        <a href="{% url 'add-expenses' %}" class="btn btn-primary">Add Expenses</a>
+    </div>      
+    </div> 
+
+    <div class="container">
+        {% include 'partials/_messages.html'%}
+
+        {% if expenses.count %}
+        <div class="row">
+            <div class="col-md-8">
+                
+
+            </div>
+            <div class="col-md-4">
+                <a href="{% url 'export-csv'%}" class="btn btn-secondary">Export to CSV</a>
+                <a href="{% url 'export-excel'%}" class="btn btn-primary">Export to Excel</a>
+                <a href="{% url 'export-pdf'%}" class="btn btn-info">Export to Pdf</a>
+                <div class="form-group">
+                    <input type="text" name="search" id="searchField" placeholder="Search" class="form-control form-control-sm" />
+                </div>
+            </div>
+        </div>
+
+<div class="app-table">
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Amount ({{currency}})</th>
+                <th scope="col">Category</th>
+                <th scope="col">Description</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for expense in page_obj %}
+            <tr>
+                <td>{{ expense.date }}</td>
+                <td>{{ expense.amount }}</td>
+                <td>{{ expense.category }}</td>
+                <td>{{ expense.description }}</td>
+                <td><a href="{% url 'expense-edit' id=expense.id %}" class="btn btn-secondary btn-sm">Edit</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>       
+        
+
+        <div class="table-output">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Date</th>
+                        <th scope="col">Amount ({{currency}})</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Description</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody class="table-body">
+
+                </tbody>
+                </table>
+        </div>
+
+        <div class="pagination-container">
+        <div class="paginator">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1" class="btn btn-sm btn-secondary">First</a>
+                    <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-sm btn-secondary">Previous</a>
+                {% endif %}
+                <span class="current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}" class="btn btn-sm btn-secondary">Next</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}" class="btn btn-sm btn-secondary">Last</a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+        {% endif%}
+    </div>
+</div>
+</div>
+
+<script src="{% static 'js/searchExpenses.js' %}"></script>
+
+{% endblock content %}
+
