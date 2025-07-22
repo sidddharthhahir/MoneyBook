@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 import os
 from django.contrib.messages import constants as messages
+import dj_database_url
 
 
 
@@ -28,7 +29,7 @@ SECRET_KEY = 'django-insecure-=rwjbu&^s!je(n+li-!o5c*42ks+cfbqa@@81fu@jqcrjgbiq5
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['moneybook-offc.onrender.com', 'localhost', '127.0.0.1']
 
 
 
@@ -53,6 +54,7 @@ MIDDLEWARE = [
      'django.contrib.auth.middleware.AuthenticationMiddleware',
      'django.contrib.messages.middleware.MessageMiddleware',
      'django.middleware.clickjacking.XFrameOptionsMiddleware',
+     'whitenoise.middleware.WhiteNoiseMiddleware',
  ]
 
 ROOT_URLCONF = 'expenseswebsite.urls'
@@ -77,17 +79,21 @@ WSGI_APPLICATION = 'expenseswebsite.wsgi.application'
 
 
 
+# DATABASES = {
+#      'default': {
+#          'ENGINE': 'django.db.backends.postgresql',
+#          'NAME': 'incomeexpensesdb',
+#          'USER': 'postgres',
+#          'PASSWORD': '250802',
+#          'HOST': 'localhost',
+#          'PORT': '5432',
+#      }
+#  }
 DATABASES = {
-     'default': {
-         'ENGINE': 'django.db.backends.postgresql',
-         'NAME': 'incomeexpensesdb',
-         'USER': 'postgres',
-         'PASSWORD': '250802',
-         'HOST': 'localhost',
-         'PORT': '5432',
-     }
- }
-
+    'default': dj_database_url.config(
+        default=os.environ.get('DATABASE_URL')
+    )
+}
 
 
 
